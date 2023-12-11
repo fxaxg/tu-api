@@ -56,4 +56,4 @@ def index():
 
 if __name__ == '__main__':
     print("老子来咯")
-    app.run(port=2888, debug=False)
+    app.run(port=2888, debug=False, host='0.0.0.0')
