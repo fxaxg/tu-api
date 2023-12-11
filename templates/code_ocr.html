@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='zh-cn'>
+<head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <title>OCR验证码</title>
+</head>
+<body>
+<h1>验证码OCR识别</h1>
+<hr>
+<h2>· 上传图片</h2>
+<form method='POST' action='/api/code_ocr' enctype='multipart/form-data'>
+    <input type='file' name='file'>
+    <input type='submit' value='识别'>
+</form>
+<br>
+<h2>· 或者输入图片URL</h2>
+<form method='POST' action='/api/code_ocr' enctype='multipart/form-data'>
+    <label>
+        <input type='text' name='image_url' placeholder='图片URL'
+               value="https://zswxy.yinghuaonline.com/service/code?r=">
+    </label>
+    <input type='submit' value='识别'>
+</form>
+<br>
+<hr>
+<h2>· Api文档</h2>
+<p>POST /upload</p>
+<p>参数：file 或 image_url</p>
+<p>返回：json</p>
+<p>示例：{ "code": 200, "msg": "识别成功", "result": "d6f5" }</p>
+<script>
+    // 阻止所有提交表单，用异步提交，alert返回结果中的result
+    document.querySelectorAll('form').forEach(function (form) {
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', form.action);
+            xhr.onload = function () {
+                const json = JSON.parse(xhr.responseText);
+                alert("验证码结果：" + json.result);
+            };
+            xhr.send(formData);
+        });
+    });
+</script>
+</body>
+</html>
